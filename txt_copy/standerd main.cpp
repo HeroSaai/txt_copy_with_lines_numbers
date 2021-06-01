@@ -11,7 +11,7 @@ string output_file;
 string output_file_loc;
 string output_file_name;
 //fstream object's
-ofstream out_file;
+ofstream o_file;
 ifstream in_file;
 
 bool safety_check(const ifstream& in_file, const ofstream& out_file);
@@ -34,9 +34,9 @@ int main() {
 	//setting the name and the location for the output file
 	output_file = nameing_the_output(output_file_loc, output_file_name);
 	//connecting the output file to fstream
-	out_file.open(output_file);
+	o_file.open(output_file);
 	//checking if all is good
-	if (safety_check(in_file, out_file)) return 1;
+	if (safety_check(in_file, o_file)) return 1;
 	//if all is good we start copying
 	copying(in_file, out_file);
 	cout << "new modified copy created" << endl;
