@@ -11,7 +11,7 @@ string output_file;
 string output_file_loc;
 string output_file_name;
 //fstream object's
-ofstream o_file;
+ofstream out_file;
 ifstream in_file;
 
 bool safety_check(const ifstream& in_file); // check if input file opened and ready 
@@ -23,22 +23,24 @@ int main() {
 	//get the user input
 	cout << "please enter the address for the file you want to change\n(ex: C:\\Mytxt.txt): ";
 	cin >> input_file; //storing the address to astring
-	cout << endl;
+	cout << endl; //clearing the buffer 
+	//connecting  the input file to fstream
+	in_file.open(input_file);
+	//safe checking
 	if (safety_check(in_file)) return 1;
+	//now the output
 	cout << "please enter the output file path you want (ex:C:\\Users\\name\\Documents):";
 	cin >> output_file_loc; //storing the output address to a string
 	cout << endl;
 	cout << "please enter the output file name you want (without \\ ) :";
 	cin >> output_file_name;
 	cout << endl;
-	//connecting  the input file to fstream
-	in_file.open(input_file);
 	//setting the name and the location for the output file
 	output_file = nameing_the_output(output_file_loc, output_file_name);
 	//connecting the output file to fstream
-	o_file.open(output_file);
+	out_file.open(output_file);
 	//checking if all is good
-	if (safety_check(output_file)) return 1;
+	if (safety_check(out_file)) return 1;
 	//if all is good we start copying
 	copying(in_file, out_file);
 	cout << "new modified copy created" << endl;
@@ -48,14 +50,14 @@ int main() {
 	return  0;
 }
 
-bool safety_check(const ifstream& in_file, const ofstream& out_file) {
+bool safety_check(const ifstream& in_file) {
 	if (!in_file) {
 		std::cerr << "problem opening the orignal file check the address " << std::endl;
 		return true;
 	}
 }
 
-bool safety_check( const ofstream& out_file) {
+bool safety_check(const ofstream& out_file) {
 	if (!out_file) {
 		std::cerr << "problem creating the output file check address or name" << std::endl;
 		return true;
