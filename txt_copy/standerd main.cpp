@@ -1,5 +1,5 @@
 //copy txt files with line numbers in the copy version
-//ver 0.1
+//ver 0.2
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -14,7 +14,8 @@ string output_file_name;
 ofstream o_file;
 ifstream in_file;
 
-bool safety_check(const ifstream& in_file, const ofstream& out_file);
+bool safety_check(const ifstream& in_file); // check if input file opened and ready 
+bool safety_check(const ofstream& out_file); // to check if the output path is fine and the appliction where able to create new txt file 
 string nameing_the_output(string& outfileloc, string& output_file_name);
 void copying(ifstream& in_file, ofstream& out_file);
 
@@ -23,6 +24,7 @@ int main() {
 	cout << "please enter the address for the file you want to change\n(ex: C:\\Mytxt.txt): ";
 	cin >> input_file; //storing the address to astring
 	cout << endl;
+	if (safety_check(in_file)) return 1;
 	cout << "please enter the output file path you want (ex:C:\\Users\\name\\Documents):";
 	cin >> output_file_loc; //storing the output address to a string
 	cout << endl;
@@ -36,7 +38,7 @@ int main() {
 	//connecting the output file to fstream
 	o_file.open(output_file);
 	//checking if all is good
-	if (safety_check(in_file, o_file)) return 1;
+	if (safety_check(output_file)) return 1;
 	//if all is good we start copying
 	copying(in_file, out_file);
 	cout << "new modified copy created" << endl;
@@ -51,6 +53,9 @@ bool safety_check(const ifstream& in_file, const ofstream& out_file) {
 		std::cerr << "problem opening the orignal file check the address " << std::endl;
 		return true;
 	}
+}
+
+bool safety_check( const ofstream& out_file) {
 	if (!out_file) {
 		std::cerr << "problem creating the output file check address or name" << std::endl;
 		return true;
